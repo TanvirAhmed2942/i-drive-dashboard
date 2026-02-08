@@ -32,8 +32,8 @@ import { cn } from "@/lib/utils";
 const dashboardHref = "/dashboard/overview";
 
 const navUserManagement = [
-  { title: "Drivers", href: "/dashboard/drivers", icon: Car },
-  { title: "Passengers", href: "/dashboard/passengers", icon: UserCircle },
+  { title: "Drivers", href: "/dashboard/driver-management", icon: Car },
+  { title: "Passengers", href: "/dashboard/passenger-management", icon: UserCircle },
 ];
 
 const navManagement = [
