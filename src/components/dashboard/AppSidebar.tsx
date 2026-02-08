@@ -48,7 +48,7 @@ const navManagement = [
 
 const navOther = [
   { title: "Legal Documents", href: "/dashboard/legal", icon: FileText },
-  { title: "Push Notifications", href: "/dashboard/notifications", icon: Bell },
+  { title: "Push Notifications", href: "/dashboard/push-notifications", icon: Bell },
   { title: "Platform Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
