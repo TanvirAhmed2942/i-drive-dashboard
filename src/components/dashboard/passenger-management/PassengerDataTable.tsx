@@ -13,31 +13,30 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Star, MapPin, Check, X } from "lucide-react";
+import { Star, MapPin } from "lucide-react";
 import FilterSearch from "@/components/common/filter/FIlterSearch";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PageLimit from "@/components/common/pagelimit/PageLimit";
 
-export type DriverStatus = "active" | "offline" | "suspended" | "pending";
+export type PassengerStatus = "active" | "blocked" | "inactive";
 
-export type Driver = {
+export type Passenger = {
   id: string;
   name: string;
-  driverId: string;
+  passengerId: string;
   avatar?: string | null;
   email: string;
   phone: string;
-  vehicle: string;
-  licensePlate: string;
+  joined: string;
   rating: number;
   totalRides: number;
-  earnings: string;
+  totalSpent: string;
   location: string;
-  status: DriverStatus;
+  status: PassengerStatus;
 };
 
-type DriverDataTableProps = {
-  drivers?: Driver[];
+type PassengerDataTableProps = {
+  passengers?: Passenger[];
   className?: string;
 };
 
@@ -50,105 +49,152 @@ function getInitials(name: string): string {
     .slice(0, 2);
 }
 
-function StatusBadge({ status }: { status: DriverStatus }) {
-  const config = {
-    active: {
-      className: "bg-emerald-600 text-white",
-      icon: <Check className="size-3" />,
-    },
-    offline: {
-      className: "bg-zinc-500/20 text-zinc-400",
-      icon: null,
-    },
-    suspended: {
-      className: "bg-red-500/90 text-white",
-      icon: <X className="size-3" />,
-    },
-    pending: {
-      className: "bg-amber-500 text-white",
-      icon: null,
-    },
+function StatusBadge({ status }: { status: PassengerStatus }) {
+  const config: Record<PassengerStatus, { className: string }> = {
+    active: { className: "bg-emerald-600 text-white" },
+    blocked: { className: "bg-red-500/90 text-white" },
+    inactive: { className: "bg-zinc-500/30 text-white" },
   };
-  const { className, icon } = config[status];
+  const { className } = config[status];
   const label = status.charAt(0).toUpperCase() + status.slice(1);
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium",
+        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
         className
       )}
     >
-      {icon}
       {label}
     </span>
   );
 }
 
-const defaultDrivers: Driver[] = [
+const defaultPassengers: Passenger[] = [
   {
     id: "1",
-    name: "Sarah Johnson",
-    driverId: "DR-1000",
-    email: "sarah.johnson@email.com",
-    phone: "+1 (555) 123-4567",
-    vehicle: "Honda Accord 2023",
-    licensePlate: "XYZ-5678",
+    name: "Michael Chen",
+    passengerId: "DR-1001",
+    email: "michael.chen@email.com",
+    phone: "+1 (555) 234-5678",
+    joined: "5 Dec, 2025",
     rating: 4.9,
-    totalRides: 1250,
-    earnings: "$42,180",
-    location: "Midtown",
+    totalRides: 1247,
+    totalSpent: "$45,230",
+    location: "Downtown",
     status: "active",
   },
   {
     id: "2",
     name: "Michael Chen",
-    driverId: "DR-1001",
+    passengerId: "DR-1001",
     email: "michael.chen@email.com",
     phone: "+1 (555) 234-5678",
-    vehicle: "Toyota Camry 2022",
-    licensePlate: "ABC-1234",
+    joined: "5 Dec, 2025",
     rating: 4.9,
     totalRides: 1247,
-    earnings: "$45,230",
+    totalSpent: "$45,230",
     location: "Downtown",
-    status: "offline",
+    status: "blocked",
   },
   {
     id: "3",
-    name: "Emily Davis",
-    driverId: "DR-1002",
-    email: "emily.davis@email.com",
-    phone: "+1 (555) 345-6789",
-    vehicle: "Tesla Model 3 2024",
-    licensePlate: "EV-9000",
-    rating: 0,
-    totalRides: 0,
-    earnings: "$0",
-    location: "Airport Zone",
-    status: "pending",
+    name: "Michael Chen",
+    passengerId: "DR-1001",
+    email: "michael.chen@email.com",
+    phone: "+1 (555) 234-5678",
+    joined: "5 Dec, 2025",
+    rating: 4.9,
+    totalRides: 1247,
+    totalSpent: "$45,230",
+    location: "Downtown",
+    status: "active",
   },
   {
     id: "4",
-    name: "James Wilson",
-    driverId: "DR-1003",
-    email: "james.wilson@email.com",
-    phone: "+1 (555) 456-7890",
-    vehicle: "Ford Fusion 2021",
-    licensePlate: "DEF-5678",
-    rating: 4.2,
-    totalRides: 890,
-    earnings: "$28,450",
-    location: "Suburbs",
-    status: "suspended",
+    name: "Michael Chen",
+    passengerId: "DR-1001",
+    email: "michael.chen@email.com",
+    phone: "+1 (555) 234-5678",
+    joined: "5 Dec, 2025",
+    rating: 4.9,
+    totalRides: 1247,
+    totalSpent: "$45,230",
+    location: "Downtown",
+    status: "inactive",
+  },
+  {
+    id: "5",
+    name: "Michael Chen",
+    passengerId: "DR-1001",
+    email: "michael.chen@email.com",
+    phone: "+1 (555) 234-5678",
+    joined: "5 Dec, 2025",
+    rating: 4.9,
+    totalRides: 1247,
+    totalSpent: "$45,230",
+    location: "Downtown",
+    status: "active",
+  },
+  {
+    id: "6",
+    name: "Michael Chen",
+    passengerId: "DR-1001",
+    email: "michael.chen@email.com",
+    phone: "+1 (555) 234-5678",
+    joined: "5 Dec, 2025",
+    rating: 4.9,
+    totalRides: 1247,
+    totalSpent: "$45,230",
+    location: "Downtown",
+    status: "blocked",
+  },
+  {
+    id: "7",
+    name: "Michael Chen",
+    passengerId: "DR-1001",
+    email: "michael.chen@email.com",
+    phone: "+1 (555) 234-5678",
+    joined: "5 Dec, 2025",
+    rating: 4.9,
+    totalRides: 1247,
+    totalSpent: "$45,230",
+    location: "Downtown",
+    status: "inactive",
+  },
+  {
+    id: "8",
+    name: "Michael Chen",
+    passengerId: "DR-1001",
+    email: "michael.chen@email.com",
+    phone: "+1 (555) 234-5678",
+    joined: "5 Dec, 2025",
+    rating: 4.9,
+    totalRides: 1247,
+    totalSpent: "$45,230",
+    location: "Downtown",
+    status: "active",
+  },
+  {
+    id: "9",
+    name: "Michael Chen",
+    passengerId: "DR-1001",
+    email: "michael.chen@email.com",
+    phone: "+1 (555) 234-5678",
+    joined: "5 Dec, 2025",
+    rating: 4.9,
+    totalRides: 1247,
+    totalSpent: "$45,230",
+    location: "Downtown",
+    status: "blocked",
   },
 ];
 
-export default function DriverDataTable({
-  drivers = defaultDrivers,
+export default function PassengerDataTable({
+  passengers = defaultPassengers,
   className,
-}: DriverDataTableProps) {
+}: PassengerDataTableProps) {
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [pagination, setPagination] = React.useState({ page: 1, pageSize: 10, totalCount: drivers.length });
+  const [pagination, setPagination] = React.useState({ page: 1, pageSize: 10, totalCount: passengers.length });
   return (
     <Card
       className={cn(
@@ -162,7 +208,7 @@ export default function DriverDataTable({
           <FilterSearch
             showFilterButton={false}
             showAddButton={false}
-            placeholder="Search drivers by name, ID, or vehicle..."
+            placeholder="Search passengers by name, ID, or contact..."
             searchText={searchQuery}
             setSearchText={setSearchQuery}
           />
@@ -183,16 +229,16 @@ export default function DriverDataTable({
                 Active
               </TabsTrigger>
               <TabsTrigger
-                value="offline"
+                value="blocked"
                 className="rounded-md px-4 py-1.5 text-sm font-medium text-zinc-400 transition-colors data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none hover:text-zinc-300 data-[state=inactive]:bg-transparent after:hidden"
               >
-                Offline
+                Blocked
               </TabsTrigger>
               <TabsTrigger
-                value="suspended"
+                value="inactive"
                 className="rounded-md px-4 py-1.5 text-sm font-medium text-zinc-400 transition-colors data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none hover:text-zinc-300 data-[state=inactive]:bg-transparent after:hidden"
               >
-                Suspended
+                Inactive
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -203,13 +249,13 @@ export default function DriverDataTable({
           <TableHeader>
             <TableRow className="border-white/10 hover:bg-transparent">
               <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Driver
+                Passenger
               </TableHead>
               <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
                 Contact
               </TableHead>
               <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Vehicle
+                Joined
               </TableHead>
               <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
                 Rating
@@ -218,7 +264,7 @@ export default function DriverDataTable({
                 Total Rides
               </TableHead>
               <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Earnings
+                Total Spent
               </TableHead>
               <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
                 Location
@@ -229,28 +275,28 @@ export default function DriverDataTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {drivers.map((driver) => (
+            {passengers.map((passenger) => (
               <TableRow
-                key={driver.id}
+                key={passenger.id}
                 className="border-white/10 text-white transition-colors hover:bg-white/5"
               >
                 <TableCell className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     <Avatar className="size-10 shrink-0">
                       <AvatarImage
-                        src={driver.avatar ?? undefined}
-                        alt={driver.name}
+                        src={passenger.avatar ?? undefined}
+                        alt={passenger.name}
                       />
                       <AvatarFallback className="bg-white/10 text-sm text-white">
-                        {getInitials(driver.name)}
+                        {getInitials(passenger.name)}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
                       <span className="font-medium text-white">
-                        {driver.name}
+                        {passenger.name}
                       </span>
                       <span className="text-xs text-zinc-500">
-                        {driver.driverId}
+                        {passenger.passengerId}
                       </span>
                     </div>
                   </div>
@@ -258,45 +304,38 @@ export default function DriverDataTable({
                 <TableCell className="px-4 py-3">
                   <div className="flex flex-col">
                     <span className="text-sm text-zinc-300">
-                      {driver.email}
+                      {passenger.email}
                     </span>
                     <span className="text-xs text-zinc-500">
-                      {driver.phone}
+                      {passenger.phone}
                     </span>
                   </div>
                 </TableCell>
-                <TableCell className="px-4 py-3">
-                  <div className="flex flex-col">
-                    <span className="text-sm text-zinc-300">
-                      {driver.vehicle}
-                    </span>
-                    <span className="text-xs text-zinc-500">
-                      {driver.licensePlate}
-                    </span>
-                  </div>
+                <TableCell className="px-4 py-3 text-sm text-zinc-300">
+                  {passenger.joined}
                 </TableCell>
                 <TableCell className="px-4 py-3">
                   <div className="flex items-center gap-1.5">
                     <Star className="size-4 fill-amber-400 text-amber-400" />
                     <span className="text-sm text-zinc-300">
-                      {driver.rating > 0 ? driver.rating.toFixed(1) : "0.0"}
+                      {passenger.rating > 0 ? passenger.rating.toFixed(1) : "0.0"}
                     </span>
                   </div>
                 </TableCell>
                 <TableCell className="px-4 py-3 text-sm text-zinc-300">
-                  {driver.totalRides.toLocaleString()}
+                  {passenger.totalRides.toLocaleString()}
                 </TableCell>
                 <TableCell className="px-4 py-3 text-sm font-medium text-zinc-300">
-                  {driver.earnings}
+                  {passenger.totalSpent}
                 </TableCell>
                 <TableCell className="px-4 py-3">
                   <div className="flex items-center gap-1.5 text-sm text-zinc-300">
                     <MapPin className="size-4 shrink-0 text-zinc-500" />
-                    {driver.location}
+                    {passenger.location}
                   </div>
                 </TableCell>
                 <TableCell className="px-4 py-3">
-                  <StatusBadge status={driver.status} />
+                  <StatusBadge status={passenger.status} />
                 </TableCell>
               </TableRow>
             ))}
