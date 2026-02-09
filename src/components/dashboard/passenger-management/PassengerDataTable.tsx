@@ -17,6 +17,7 @@ import { Star, MapPin } from "lucide-react";
 import FilterSearch from "@/components/common/filter/FIlterSearch";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PageLimit from "@/components/common/pagelimit/PageLimit";
+import { PassengerDetailsSheet } from "./PassengerDetailsSheet";
 
 export type PassengerStatus = "active" | "blocked" | "inactive";
 
@@ -195,7 +196,21 @@ export default function PassengerDataTable({
 }: PassengerDataTableProps) {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [pagination, setPagination] = React.useState({ page: 1, pageSize: 10, totalCount: passengers.length });
+  const [selectedPassenger, setSelectedPassenger] = React.useState<Passenger | null>(null);
+  const [sheetOpen, setSheetOpen] = React.useState(false);
+
+  const handleRowClick = (passenger: Passenger) => {
+    setSelectedPassenger(passenger);
+    setSheetOpen(true);
+  };
+
+  const handleSheetOpenChange = (open: boolean) => {
+    setSheetOpen(open);
+    if (!open) setSelectedPassenger(null);
+  };
+
   return (
+    <>
     <Card
       className={cn(
         "overflow-hidden rounded-lg border border-white/10 bg-[#10162B]",
@@ -278,7 +293,16 @@ export default function PassengerDataTable({
             {passengers.map((passenger) => (
               <TableRow
                 key={passenger.id}
-                className="border-white/10 text-white transition-colors hover:bg-white/5"
+                role="button"
+                tabIndex={0}
+                onClick={() => handleRowClick(passenger)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleRowClick(passenger);
+                  }
+                }}
+                className="cursor-pointer border-white/10 text-white transition-colors hover:bg-white/5"
               >
                 <TableCell className="px-4 py-3">
                   <div className="flex items-center gap-3">
@@ -350,5 +374,11 @@ export default function PassengerDataTable({
         </Table>
       </CardContent>
     </Card>
+    <PassengerDetailsSheet
+      passenger={selectedPassenger}
+      open={sheetOpen}
+      onOpenChange={handleSheetOpenChange}
+    />
+    </>
   );
 }

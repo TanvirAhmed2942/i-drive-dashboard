@@ -17,6 +17,7 @@ import { Star, MapPin, Check, X } from "lucide-react";
 import FilterSearch from "@/components/common/filter/FIlterSearch";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PageLimit from "@/components/common/pagelimit/PageLimit";
+import { DriverDetailsSheet } from "./DriverDetailsSheet";
 
 export type DriverStatus = "active" | "offline" | "suspended" | "pending";
 
@@ -149,7 +150,21 @@ export default function DriverDataTable({
 }: DriverDataTableProps) {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [pagination, setPagination] = React.useState({ page: 1, pageSize: 10, totalCount: drivers.length });
+  const [selectedDriver, setSelectedDriver] = React.useState<Driver | null>(null);
+  const [sheetOpen, setSheetOpen] = React.useState(false);
+
+  const handleRowClick = (driver: Driver) => {
+    setSelectedDriver(driver);
+    setSheetOpen(true);
+  };
+
+  const handleSheetOpenChange = (open: boolean) => {
+    setSheetOpen(open);
+    if (!open) setSelectedDriver(null);
+  };
+
   return (
+    <>
     <Card
       className={cn(
         "overflow-hidden rounded-lg border border-white/10 bg-[#10162B]",
@@ -232,7 +247,16 @@ export default function DriverDataTable({
             {drivers.map((driver) => (
               <TableRow
                 key={driver.id}
-                className="border-white/10 text-white transition-colors hover:bg-white/5"
+                role="button"
+                tabIndex={0}
+                onClick={() => handleRowClick(driver)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleRowClick(driver);
+                  }
+                }}
+                className="cursor-pointer border-white/10 text-white transition-colors hover:bg-white/5"
               >
                 <TableCell className="px-4 py-3">
                   <div className="flex items-center gap-3">
@@ -311,5 +335,11 @@ export default function DriverDataTable({
         </Table>
       </CardContent>
     </Card>
+    <DriverDetailsSheet
+      driver={selectedDriver}
+      open={sheetOpen}
+      onOpenChange={handleSheetOpenChange}
+    />
+    </>
   );
 }
