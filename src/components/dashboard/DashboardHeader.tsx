@@ -12,10 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { useRouter } from "next/navigation";
 
 const notificationCount = 1;
 
 export function DashboardHeader() {
+  const router = useRouter();
   return (
     <div className="ml-auto flex items-center gap-2">
       <Button
@@ -23,6 +25,7 @@ export function DashboardHeader() {
         size="icon"
         className="relative text-white hover:bg-sidebar-accent"
         aria-label="Notifications"
+        onClick={() => router.push("/dashboard/notifications")}
       >
         <Bell className="size-5" />
         {notificationCount > 0 && (
