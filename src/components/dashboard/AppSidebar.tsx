@@ -40,7 +40,7 @@ const navManagement = [
   { title: "Ride Management", href: "/dashboard/ride-management", icon: GitBranch },
   {
     title: "Payment & Earning Management",
-    href: "/dashboard/payments",
+    href: "/dashboard/payment-management",
     icon: CreditCard,
   },
   { title: "Analytics & Reports", href: "/dashboard/analytics", icon: BarChart3 },
