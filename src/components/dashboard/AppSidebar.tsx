@@ -37,7 +37,7 @@ const navUserManagement = [
 ];
 
 const navManagement = [
-  { title: "Ride Management", href: "/dashboard/rides", icon: GitBranch },
+  { title: "Ride Management", href: "/dashboard/ride-management", icon: GitBranch },
   {
     title: "Payment & Earning Management",
     href: "/dashboard/payments",
