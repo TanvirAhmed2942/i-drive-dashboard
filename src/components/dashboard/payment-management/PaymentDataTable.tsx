@@ -13,14 +13,14 @@ import {
 } from "@/components/ui/table";
 import {
   Card,
-  CardAction,
+  // CardAction,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Check, X, Clock } from "lucide-react";
 import FilterSearch from "@/components/common/filter/FIlterSearch";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PageLimit from "@/components/common/pagelimit/PageLimit";
 
 export type PaymentStatus = "completed" | "pending" | "failed";
@@ -104,7 +104,7 @@ const defaultPayments: Payment[] = [
     driverEarning: "$36.16",
     method: "Stripe",
     dateTime: "Today, 2:30 PM",
-    status: "pending",
+    status: "completed",
   },
   {
     id: "3",
@@ -130,7 +130,7 @@ const defaultPayments: Payment[] = [
     driverEarning: "$36.16",
     method: "Stripe",
     dateTime: "Today, 2:30 PM",
-    status: "failed",
+    status: "completed",
   },
 ];
 
@@ -162,7 +162,7 @@ export default function PaymentDataTable({
             setSearchText={setSearchQuery}
           />
         </CardTitle>
-        <CardAction>
+        {/* <CardAction>
           <Tabs defaultValue="all" className="w-full">
             <TabsList className="h-9 rounded-lg border-2 bg-background p-1 gap-0">
               <TabsTrigger
@@ -191,7 +191,7 @@ export default function PaymentDataTable({
               </TabsTrigger>
             </TabsList>
           </Tabs>
-        </CardAction>
+        </CardAction> */}
       </CardHeader>
       <CardContent className="p-0">
         <Table>

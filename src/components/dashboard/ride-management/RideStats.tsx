@@ -29,14 +29,14 @@ const stats = [
         subtitle: "This month",
         iconClassName: "text-emerald-400",
     },
-    {
-        key: "cancelled",
-        icon: Ban,
-        label: "Cancelled",
-        count: "234",
-        subtitle: "This month",
-        iconClassName: "text-red-400",
-    },
+    // {
+    //     key: "cancelled",
+    //     icon: Ban,
+    //     label: "Cancelled",
+    //     count: "234",
+    //     subtitle: "This month",
+    //     iconClassName: "text-red-400",
+    // },
 ] as const;
 
 export default function RideStats() {

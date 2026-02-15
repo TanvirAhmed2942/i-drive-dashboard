@@ -21,7 +21,10 @@ import {
   Ban,
   UserCheck,
   CreditCard,
+  AlertCircle,
+  Lock,
 } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Passenger, PassengerStatus } from "./PassengerDataTable";
 
 const MOCK_GENDER = "Male";
@@ -31,6 +34,14 @@ const MOCK_RECENT_RIDES = [
   { id: "RI-4512", driverName: "Sarah Johnson", amount: "$28.50", time: "2 days ago" },
   { id: "RI-4501", driverName: "James Wilson", amount: "$32.80", time: "3 days ago" },
 ];
+
+const MOCK_REPORTED_MESSAGES = [
+  { from: "Alex", time: "2 days ago", message: "Sent offensive or threatening messages" },
+  { from: "Alex", time: "2 days ago", message: "Bullying other attendees" },
+  { from: "Alex", time: "2 days ago", message: "Fraudulent behaviour / fake claims" },
+  { from: "Alex", time: "2 days ago", message: "Disruptive behaviour in group chat or event" },
+];
+const REPORT_COUNT = MOCK_REPORTED_MESSAGES.length;
 
 function getInitials(name: string): string {
   return name
@@ -151,31 +162,72 @@ function PaymentMethodsSection() {
   );
 }
 
-function RecentRidesSection() {
+function RecentRidesSection({ withScrollArea = false }: { withScrollArea?: boolean }) {
+  const content = (
+    <ul className="space-y-3 pr-2">
+      {MOCK_RECENT_RIDES.map((ride) => (
+        <li
+          key={ride.id}
+          className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-3"
+        >
+          <div>
+            <p className="text-sm font-medium text-blue-400">#{ride.id}</p>
+            <p className="text-xs text-zinc-500">
+              Driver: {ride.driverName}
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm font-medium text-white">{ride.amount}</p>
+            <p className="text-xs text-zinc-500">{ride.time}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
   return (
-    <section className="space-y-3">
+    <section className="flex flex-col space-y-3">
       <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
         Recent Rides
       </h3>
-      <ul className="space-y-3">
-        {MOCK_RECENT_RIDES.map((ride) => (
-          <li
-            key={ride.id}
-            className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-3"
-          >
-            <div>
-              <p className="text-sm font-medium text-blue-400">#{ride.id}</p>
+      {withScrollArea ? (
+        <ScrollArea className="h-[180px] w-full rounded-md border border-white/10 p-2">
+          {content}
+        </ScrollArea>
+      ) : (
+        content
+      )}
+    </section>
+  );
+}
+
+function ReportedMessagePreviewSection() {
+  return (
+    <section className="flex flex-col space-y-3">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+        Reported Message Preview
+      </h3>
+      <div className="flex items-center gap-2 text-sm text-red-400">
+        <AlertCircle className="size-4 shrink-0" />
+        <span>{REPORT_COUNT} Report received from passenger</span>
+      </div>
+      <div className="flex items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-200">
+        <Lock className="size-4 shrink-0" />
+        <span>Only the last 5 reported messages are shown.</span>
+      </div>
+      <ScrollArea className="h-[180px] w-full rounded-md border border-white/10 p-2">
+        <div className="space-y-3 pr-2">
+          {MOCK_REPORTED_MESSAGES.map((report, i) => (
+            <div key={i} className="space-y-1">
               <p className="text-xs text-zinc-500">
-                Driver: {ride.driverName}
+                From {report.from} | {report.time}
               </p>
+              <div className="rounded-md bg-red-500/20 px-3 py-2 text-sm text-red-200">
+                {report.message}
+              </div>
             </div>
-            <div className="text-right">
-              <p className="text-sm font-medium text-white">{ride.amount}</p>
-              <p className="text-xs text-zinc-500">{ride.time}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      </ScrollArea>
     </section>
   );
 }
@@ -199,7 +251,7 @@ export function PassengerDetailsSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="flex w-full  flex-col overflow-y-auto border-white/10 bg-[#10162B] sm:max-w-md"
+        className="flex w-full flex-col overflow-y-auto border-white/10 bg-[#10162B] sm:max-w-xl"
       >
         <SheetHeader className="flex flex-row items-start justify-between gap-4 border-b border-white/10 pb-4">
           <SheetTitle className="text-lg font-semibold text-white">
@@ -207,7 +259,7 @@ export function PassengerDetailsSheet({
           </SheetTitle>
         </SheetHeader>
 
-        <div className="flex flex-1 flex-col gap-6 py-4 px-4">
+        <div className="flex flex-1 flex-col gap-6 px-4 py-4">
           {/* Profile */}
           <div className="flex items-start gap-3">
             <Avatar className="size-14 shrink-0">
@@ -231,14 +283,25 @@ export function PassengerDetailsSheet({
           <KeyMetricsSection passenger={passenger} />
           <ContactSection passenger={passenger} />
           <PaymentMethodsSection />
-          <RecentRidesSection />
+
+          {/* Active/inactive: column layout - Recent Rides then Reported Message Preview with ScrollArea */}
+          {(passenger.status === "active" || passenger.status === "inactive") && (
+            <div className="flex flex-col gap-4">
+              <RecentRidesSection withScrollArea />
+              <ReportedMessagePreviewSection />
+            </div>
+          )}
+
+          {/* Blocked: single-column Recent Rides only */}
+          {passenger.status === "blocked" && <RecentRidesSection />}
         </div>
 
         {/* Action by status */}
         <div className="mt-auto border-t border-white/10 py-4 px-4">
           {isBlocked ? (
             <Button
-              className="w-full gap-2 bg-blue-600 hover:bg-blue-700"
+              variant='outline'
+              className="w-full bg-blue-500/10 border-blue-500 text-blue-500 hover:bg-blue-500/20 hover:text-blue-500/80 gap-2"
               onClick={() => onOpenChange(false)}
             >
               <UserCheck className="size-4" />
@@ -246,8 +309,8 @@ export function PassengerDetailsSheet({
             </Button>
           ) : (
             <Button
-              variant="destructive"
-              className="w-full gap-2"
+              variant='outline'
+              className="w-full bg-red-500/10 border-red-500 text-red-500 hover:bg-red-500/20 hover:text-red-500/80 gap-2"
               onClick={() => onOpenChange(false)}
             >
               <Ban className="size-4" />

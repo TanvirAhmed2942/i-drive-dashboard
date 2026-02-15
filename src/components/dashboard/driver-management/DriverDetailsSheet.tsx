@@ -22,8 +22,11 @@ import {
   Check,
   X,
   Ban,
-  RefreshCw,
+  AlertCircle,
+  Lock,
+  Trash,
 } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Driver, DriverStatus } from "./DriverDataTable";
 
 const MOCK_JOIN_DATE = "Joined Jan 15, 2024";
@@ -34,6 +37,13 @@ const MOCK_RECENT_RIDES = [
   { id: "RI-4521", time: "2 hours ago", amount: "$45.20", status: "Completed" },
   { id: "RI-4512", time: "5 hours ago", amount: "$28.50", status: "Completed" },
   { id: "RI-4501", time: "1 day ago", amount: "$32.80", status: "Completed" },
+];
+
+const MOCK_REPORTED_MESSAGES = [
+  { from: "Alex", time: "2 days ago", message: "Sent offensive or threatening messages" },
+  { from: "Alex", time: "2 days ago", message: "Bullying other attendees" },
+  { from: "Alex", time: "2 days ago", message: "Fraudulent behaviour / fake claims" },
+  { from: "Alex", time: "2 days ago", message: "Disruptive behaviour in group chat or event" },
 ];
 
 function getInitials(name: string): string {
@@ -108,7 +118,7 @@ function VehicleSection({
   variant?: "full" | "compact";
 }) {
   return (
-    <section className="space-y-3">
+    <section className="space-y-3 ">
       <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
         Vehicle Information
       </h3>
@@ -197,29 +207,70 @@ function KeyMetricsSection({ driver }: { driver: Driver }) {
   );
 }
 
-function RecentActivitySection() {
+function RecentActivitySection({ withScrollArea = false }: { withScrollArea?: boolean }) {
+  const content = (
+    <ul className="space-y-3 pr-2">
+      {MOCK_RECENT_RIDES.map((ride) => (
+        <li
+          key={ride.id}
+          className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-3"
+        >
+          <div>
+            <p className="text-sm font-medium text-blue-400">#{ride.id}</p>
+            <p className="text-xs text-zinc-500">{ride.time}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm font-medium text-white">{ride.amount}</p>
+            <p className="text-xs text-emerald-400">{ride.status}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
   return (
-    <section className="space-y-3">
+    <section className="flex min-w-0 flex-1 flex-col space-y-3">
       <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
         Recent Activity
       </h3>
-      <ul className="space-y-3">
-        {MOCK_RECENT_RIDES.map((ride) => (
-          <li
-            key={ride.id}
-            className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-3"
-          >
-            <div>
-              <p className="text-sm font-medium text-blue-400">#{ride.id}</p>
-              <p className="text-xs text-zinc-500">{ride.time}</p>
+      {withScrollArea ? (
+        <ScrollArea className="h-80 w-full rounded-md border p-2 border-white/10">
+          {content}
+        </ScrollArea>
+      ) : (
+        content
+      )}
+    </section>
+  );
+}
+
+function ReportedMessagePreviewSection() {
+  return (
+    <section className="flex min-w-0 flex-1 flex-col space-y-3">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+        Reported Message Preview
+      </h3>
+      <div className="flex items-center gap-2 text-sm text-red-400">
+        <AlertCircle className="size-4 shrink-0" />
+        <span>Report received from passenger</span>
+      </div>
+      <div className="flex items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-200">
+        <Lock className="size-4 shrink-0" />
+        <span>Only the last 5 reported messages are shown.</span>
+      </div>
+      <ScrollArea className="h-[180px] w-full rounded-md border border-white/10 p-2">
+        <div className="space-y-3 pr-2">
+          {MOCK_REPORTED_MESSAGES.map((report, i) => (
+            <div key={i} className="space-y-1">
+              <p className="text-xs text-zinc-500">
+                From {report.from} | {report.time}
+              </p>
+              <div className="rounded-md bg-red-500/20 px-3 py-2 text-sm text-red-200">
+                {report.message}
+              </div>
             </div>
-            <div className="text-right">
-              <p className="text-sm font-medium text-white">{ride.amount}</p>
-              <p className="text-xs text-emerald-400">{ride.status}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      </ScrollArea>
     </section>
   );
 }
@@ -244,7 +295,7 @@ export function DriverDetailsSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="flex w-full  flex-col overflow-y-auto border-white/10 bg-[#10162B] sm:max-w-md"
+        className="flex w-full flex-col overflow-y-auto border-white/10 bg-[#10162B] sm:max-w-md"
       >
         <SheetHeader className="flex flex-row items-start justify-between gap-4 border-b border-white/10 pb-4">
           <SheetTitle className="text-lg font-semibold text-white">
@@ -271,18 +322,25 @@ export function DriverDetailsSheet({
           </div>
 
           {/* Key metrics: only for non-pending */}
-          {!isPending && (
-            <KeyMetricsSection driver={driver} />
-          )}
+          {!isPending && <KeyMetricsSection driver={driver} />}
 
           <ContactSection driver={driver} />
+
           <VehicleSection driver={driver} variant={isPending ? "full" : "compact"} />
 
           {/* Documents: only for pending */}
           {isPending && <DocumentsSection />}
 
-          {/* Recent activity: only for non-pending */}
-          {!isPending && <RecentActivitySection />}
+          {/* Active/offline: two-column Recent Activity + Reported Message Preview with ScrollArea */}
+          {(driver.status === "active" || driver.status === "offline") && (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <RecentActivitySection withScrollArea />
+              <ReportedMessagePreviewSection />
+            </div>
+          )}
+
+          {/* Pending/suspended: single-column Recent Activity without ScrollArea */}
+          {isPending === false && isSuspended && <RecentActivitySection />}
         </div>
 
         {/* Actions by status */}
@@ -290,15 +348,15 @@ export function DriverDetailsSheet({
           {isPending && (
             <>
               <Button
-                className="w-full gap-2 bg-blue-600 hover:bg-blue-700"
+                variant='outline'
+                className="w-full bg-blue-500/10 border-blue-500 text-blue-500 hover:bg-blue-500/20 hover:text-blue-500/80 gap-2"
                 onClick={() => onOpenChange(false)}
               >
                 <Check className="size-4" />
                 Approve
               </Button>
-              <Button
-                variant="destructive"
-                className="w-full gap-2"
+              <Button variant='outline'
+                className="w-full bg-red-500/10 border-red-500 text-red-500 hover:bg-red-500/20 hover:text-red-500/80 gap-2"
                 onClick={() => onOpenChange(false)}
               >
                 <X className="size-4" />
@@ -308,8 +366,9 @@ export function DriverDetailsSheet({
           )}
           {(driver.status === "active" || driver.status === "offline") && (
             <Button
-              variant="destructive"
-              className="w-full gap-2"
+              variant='outline'
+              className="w-full bg-red-500/10 border-red-500 text-red-500 hover:bg-red-500/20 hover:text-red-500/80 gap-2"
+
               onClick={() => onOpenChange(false)}
             >
               <Ban className="size-4" />
@@ -318,11 +377,12 @@ export function DriverDetailsSheet({
           )}
           {isSuspended && (
             <Button
-              className="w-full gap-2 bg-blue-600 hover:bg-blue-700"
+              variant='outline'
+              className="w-full bg-red-500/10 border-red-500 text-red-500 hover:bg-red-500/20 hover:text-red-500/80 gap-2"
               onClick={() => onOpenChange(false)}
             >
-              <RefreshCw className="size-4" />
-              Request to Resubmit all Information
+              <Trash className="size-4" />
+              Delete
             </Button>
           )}
         </div>

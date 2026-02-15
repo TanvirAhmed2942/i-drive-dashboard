@@ -32,15 +32,15 @@ const stats = [
     iconClassName: "text-violet-400",
     subtitleClassName: "text-zinc-500",
   },
-  {
-    key: "pending",
-    icon: Clock,
-    label: "Pending",
-    value: "$4,256",
-    subtitle: "Awaiting processing",
-    iconClassName: "text-amber-400",
-    subtitleClassName: "text-zinc-500",
-  },
+  // {
+  //   key: "pending",
+  //   icon: Clock,
+  //   label: "Pending",
+  //   value: "$4,256",
+  //   subtitle: "Awaiting processing",
+  //   iconClassName: "text-amber-400",
+  //   subtitleClassName: "text-zinc-500",
+  // },
 ] as const;
 
 export default function PaymentStats() {

@@ -10,6 +10,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
+import DocumentStats from "./DocumentStats";
+import RecordTable from "./RecordTable";
 
 const documents = [
     { id: "terms-and-conditions", title: "Terms & Conditions", lastUpdated: "Jan 15, 2025" },
@@ -26,6 +28,8 @@ export default function LegalLayout() {
                 title="Legal"
                 description="Manage your legal documents and their information."
             />
+            <DocumentStats />
+            <RecordTable />
             <Card className="overflow-hidden rounded-lg border border-white/10 bg-[#10162B]">
                 <CardHeader className="pb-4">
                     <CardTitle className="text-xl font-bold text-white">
