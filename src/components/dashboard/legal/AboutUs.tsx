@@ -27,13 +27,13 @@ function AboutUs() {
                     description="Here is an overview of your about us"
                 />
                 {isAdmin && (
-                    <Button onClick={handleEditClick}>
+                    <Button onClick={handleEditClick} variant='outline' className="bg-blue-500/10 border-blue-500 text-blue-500 hover:bg-blue-500/20 hover:text-blue-500/80">
                         <FiEdit3 size={15} /> Edit About Us
                     </Button>
                 )}
             </div>
 
-            <div className="space-y-4 border bg-white p-4 rounded-lg min-h-[700px]">
+            <div className="space-y-4 border bg-white/80 p-4 rounded-lg min-h-[700px]">
                 <h1 className="text-2xl font-bold">About Us</h1>
                 {policyContent ? (
                     <div

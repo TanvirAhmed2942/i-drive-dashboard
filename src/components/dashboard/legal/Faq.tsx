@@ -85,7 +85,8 @@ function FaqsLayout() {
                         {isEditMode && (
                             <Button
                                 onClick={handleAddNewSection}
-                                className="bg-black hover:bg-black/80 text-white"
+                                variant='outline'
+                                className="bg-blue-500/10 border-blue-500 text-blue-500 hover:bg-blue-500/20 hover:text-blue-500/80"
                             >
                                 <Plus size={16} />
                                 Add FAQ
@@ -93,12 +94,12 @@ function FaqsLayout() {
                         )}
                         {isEditMode ? (
                             <>
-                                <Button variant="outline" onClick={handleCancel}>
+                                <Button variant="outline" onClick={handleCancel} className="bg-red-500/10 border-red-500 text-red-500 hover:bg-red-500/20 hover:text-red-500/80">
                                     Cancel
                                 </Button>
                                 <Button
                                     onClick={handleSave}
-                                    className="bg-black hover:bg-black/80 text-white"
+                                    className="bg-green-500/10 border-green-500 text-green-500 hover:bg-green-500/20 hover:text-green-500/80"
                                 >
                                     Save
                                 </Button>
@@ -107,7 +108,7 @@ function FaqsLayout() {
                             <Button
                                 variant="outline"
                                 onClick={handleEditClick}
-                                className="hover:bg-white hover:text-red-400"
+                                className="bg-blue-500/10 border-blue-500 text-blue-500 hover:bg-blue-500/20 hover:text-blue-500/80"
                             >
                                 <FiEdit3 size={15} />
                             </Button>
@@ -117,7 +118,7 @@ function FaqsLayout() {
             </div>
 
             {sections.length === 0 && !isEditMode && (
-                <div className="flex flex-col items-center justify-center py-12 border rounded-lg bg-white">
+                <div className="flex flex-col items-center justify-center py-12 border rounded-lg bg-white/80">
                     <FcFaq className="text-6xl mb-4" />
                     <p className="text-gray-500 mb-4">No FAQs found</p>
                     {isAdmin && (
@@ -201,8 +202,8 @@ function FaqsLayout() {
                                                 handleContentChange(section.id, e.target.value)
                                             }
                                             className={`min-h-[120px] w-full resize-none rounded-md border px-3 py-2 text-sm ${isEditMode
-                                                    ? "bg-white border-gray-300 text-gray-900"
-                                                    : "bg-gray-50 border-gray-200 text-gray-900"
+                                                ? "bg-white border-gray-300 text-gray-900"
+                                                : "bg-gray-50 border-gray-200 text-gray-900"
                                                 }`}
                                             placeholder="Enter FAQ answer..."
                                         />

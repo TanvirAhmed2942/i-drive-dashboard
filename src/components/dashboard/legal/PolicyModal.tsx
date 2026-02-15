@@ -51,7 +51,7 @@ function PolicyModal({
         <Dialog open={openModal} onOpenChange={handleOpenChange}>
             <DialogContent className=" max-w-2xl md:max-w-3xl  lg:max-w-5xl max-h-[90vh] flex flex-col p-0">
                 <DialogHeader className="px-6 pt-6 pb-4 border-b shrink-0">
-                    <DialogTitle className="text-xl font-semibold text-left">
+                    <DialogTitle className="text-xl font-semibold text-left text-white/80">
                         {title}
                     </DialogTitle>
                 </DialogHeader>
@@ -76,6 +76,7 @@ function PolicyModal({
                         variant="outline"
                         onClick={() => setOpenModal(false)}
                         disabled={isLoading}
+                        className="bg-blue-500/10 border-blue-500 text-blue-500 hover:bg-blue-500/20 hover:text-blue-500/80"
                     >
                         Cancel
                     </Button>
@@ -83,12 +84,12 @@ function PolicyModal({
                         type="button"
                         onClick={handleSave}
                         disabled={isLoading || !editorContent.trim()}
-                        className="bg-gray-800 hover:bg-gray-700 text-white"
+                        className="bg-green-500/10 border-green-500 text-green-500 hover:bg-green-500/20 hover:text-green-500/80"
                     >
                         {isLoading ? (
                             <>
                                 Saving...{" "}
-                                <Loader className="ml-2 inline-block h-4 w-4 animate-spin text-white" />
+                                <Loader className="ml-2 inline-block h-4 w-4 animate-spin text-green-500" />
                             </>
                         ) : (
                             "Save"
