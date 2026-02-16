@@ -97,11 +97,11 @@ export default function PageLimit({
 
             <div className="text-sm text-muted-foreground">
                 Showing{" "}
-                <span className="font-medium text-foreground">{start}</span>
+                <span className="font-medium text-muted-foreground">{start}</span>
                 {" to "}
-                <span className="font-medium text-foreground">{end}</span>
+                <span className="font-medium text-muted-foreground">{end}</span>
                 {" of "}
-                <span className="font-medium text-foreground">{totalCount.toLocaleString()}</span>
+                <span className="font-medium text-muted-foreground">{totalCount.toLocaleString()}</span>
                 {" "}
                 {itemLabel}
             </div>
@@ -143,8 +143,8 @@ export default function PageLimit({
                             className={cn(
                                 "size-8 rounded-full text-sm font-medium",
                                 p === page
-                                    ? "border border-border bg-white text-foreground shadow-sm"
-                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                    ? "border border-border bg-white text-muted-foreground shadow-sm"
+                                    : "text-muted-foreground hover:bg-muted hover:text-muted-foreground"
                             )}
                             onClick={() => goToPage(p)}
                             aria-label={`Page ${p}`}
@@ -157,7 +157,7 @@ export default function PageLimit({
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="size-8 rounded-md"
+                    className="size-8 rounded-md text-muted-foreground hover:bg-muted hover:text-muted-foreground"
                     onClick={() => goToPage(page + 1)}
                     disabled={page >= totalPages}
                     aria-label="Next page"
@@ -167,7 +167,7 @@ export default function PageLimit({
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="size-8 rounded-md"
+                    className="size-8 rounded-md text-muted-foreground hover:bg-muted hover:text-muted-foreground"
                     onClick={() => goToPage(totalPages)}
                     disabled={page >= totalPages}
                     aria-label="Last page"

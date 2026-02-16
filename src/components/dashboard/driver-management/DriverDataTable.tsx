@@ -165,181 +165,181 @@ export default function DriverDataTable({
 
   return (
     <>
-    <Card
-      className={cn(
-        "overflow-hidden rounded-lg border border-white/10 bg-[#10162B]",
-        className
-      )}
-    >
-      <CardHeader className="flex flex-row items-center justify-between w-full">
+      <Card
+        className={cn(
+          "overflow-hidden rounded-lg border border-white/10 bg-[#10162B]",
+          className
+        )}
+      >
+        <CardHeader className="flex flex-row items-center justify-between w-full">
 
-        <CardTitle className="w-full">
-          <FilterSearch
-            showFilterButton={false}
-            showAddButton={false}
-            placeholder="Search drivers by name, ID, or vehicle..."
-            searchText={searchQuery}
-            setSearchText={setSearchQuery}
-          />
-        </CardTitle>
-        <CardAction>
-          <Tabs defaultValue="all" className="w-full">
-            <TabsList className="h-9 rounded-lg border-2  bg-background p-1 gap-0">
-              <TabsTrigger
-                value="all"
-                className="rounded-md px-4 py-1.5 text-sm font-medium text-zinc-400 transition-colors data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none hover:text-zinc-300 data-[state=inactive]:bg-transparent after:hidden"
-              >
-                All
-              </TabsTrigger>
-              <TabsTrigger
-                value="active"
-                className="rounded-md px-4 py-1.5 text-sm font-medium text-zinc-400 transition-colors data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none hover:text-zinc-300 data-[state=inactive]:bg-transparent after:hidden"
-              >
-                Active
-              </TabsTrigger>
-              <TabsTrigger
-                value="offline"
-                className="rounded-md px-4 py-1.5 text-sm font-medium text-zinc-400 transition-colors data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none hover:text-zinc-300 data-[state=inactive]:bg-transparent after:hidden"
-              >
-                Offline
-              </TabsTrigger>
-              <TabsTrigger
-                value="suspended"
-                className="rounded-md px-4 py-1.5 text-sm font-medium text-zinc-400 transition-colors data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none hover:text-zinc-300 data-[state=inactive]:bg-transparent after:hidden"
-              >
-                Suspended
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </CardAction>
-      </CardHeader>
-      <CardContent className="p-0">
-        <Table>
-          <TableHeader>
-            <TableRow className="border-white/10 hover:bg-transparent">
-              <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Driver
-              </TableHead>
-              <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Contact
-              </TableHead>
-              <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Vehicle
-              </TableHead>
-              <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Rating
-              </TableHead>
-              <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Total Rides
-              </TableHead>
-              <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Earnings
-              </TableHead>
-              <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Location
-              </TableHead>
-              <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                Status
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {drivers.map((driver) => (
-              <TableRow
-                key={driver.id}
-                role="button"
-                tabIndex={0}
-                onClick={() => handleRowClick(driver)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handleRowClick(driver);
-                  }
-                }}
-                className="cursor-pointer border-white/10 text-white transition-colors hover:bg-white/5"
-              >
-                <TableCell className="px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="size-10 shrink-0">
-                      <AvatarImage
-                        src={driver.avatar ?? undefined}
-                        alt={driver.name}
-                      />
-                      <AvatarFallback className="bg-white/10 text-sm text-white">
-                        {getInitials(driver.name)}
-                      </AvatarFallback>
-                    </Avatar>
+          <CardTitle className="w-full">
+            <FilterSearch
+              showFilterButton={false}
+              showAddButton={false}
+              placeholder="Search drivers by name, ID, or vehicle..."
+              searchText={searchQuery}
+              setSearchText={setSearchQuery}
+            />
+          </CardTitle>
+          <CardAction>
+            <Tabs defaultValue="all" className="w-full">
+              <TabsList className="h-9 rounded-lg border-2  bg-background p-1 gap-0">
+                <TabsTrigger
+                  value="all"
+                  className="rounded-md px-4 py-1.5 text-sm font-medium text-zinc-400 transition-colors data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none hover:text-zinc-300 data-[state=inactive]:bg-transparent after:hidden"
+                >
+                  All
+                </TabsTrigger>
+                <TabsTrigger
+                  value="active"
+                  className="rounded-md px-4 py-1.5 text-sm font-medium text-zinc-400 transition-colors data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none hover:text-zinc-300 data-[state=inactive]:bg-transparent after:hidden"
+                >
+                  Active
+                </TabsTrigger>
+                <TabsTrigger
+                  value="offline"
+                  className="rounded-md px-4 py-1.5 text-sm font-medium text-zinc-400 transition-colors data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none hover:text-zinc-300 data-[state=inactive]:bg-transparent after:hidden"
+                >
+                  Offline
+                </TabsTrigger>
+                <TabsTrigger
+                  value="suspended"
+                  className="rounded-md px-4 py-1.5 text-sm font-medium text-zinc-400 transition-colors data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-none hover:text-zinc-300 data-[state=inactive]:bg-transparent after:hidden"
+                >
+                  Suspended
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </CardAction>
+        </CardHeader>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-white/10 hover:bg-transparent">
+                <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  Driver
+                </TableHead>
+                <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  Contact
+                </TableHead>
+                <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  Vehicle
+                </TableHead>
+                <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  Rating
+                </TableHead>
+                <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  Total Rides
+                </TableHead>
+                <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  Earnings
+                </TableHead>
+                <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  Location
+                </TableHead>
+                <TableHead className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  Status
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {drivers.map((driver) => (
+                <TableRow
+                  key={driver.id}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleRowClick(driver)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleRowClick(driver);
+                    }
+                  }}
+                  className="cursor-pointer border-white/10 text-white transition-colors hover:bg-white/5"
+                >
+                  <TableCell className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="size-10 shrink-0">
+                        <AvatarImage
+                          src={driver.avatar ?? undefined}
+                          alt={driver.name}
+                        />
+                        <AvatarFallback className="bg-white/10 text-sm text-white">
+                          {getInitials(driver.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col">
+                        <span className="font-medium text-white">
+                          {driver.name}
+                        </span>
+                        <span className="text-xs text-zinc-500">
+                          {driver.driverId}
+                        </span>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
                     <div className="flex flex-col">
-                      <span className="font-medium text-white">
-                        {driver.name}
+                      <span className="text-sm text-zinc-300">
+                        {driver.email}
                       </span>
                       <span className="text-xs text-zinc-500">
-                        {driver.driverId}
+                        {driver.phone}
                       </span>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell className="px-4 py-3">
-                  <div className="flex flex-col">
-                    <span className="text-sm text-zinc-300">
-                      {driver.email}
-                    </span>
-                    <span className="text-xs text-zinc-500">
-                      {driver.phone}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell className="px-4 py-3">
-                  <div className="flex flex-col">
-                    <span className="text-sm text-zinc-300">
-                      {driver.vehicle}
-                    </span>
-                    <span className="text-xs text-zinc-500">
-                      {driver.licensePlate}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell className="px-4 py-3">
-                  <div className="flex items-center gap-1.5">
-                    <Star className="size-4 fill-amber-400 text-amber-400" />
-                    <span className="text-sm text-zinc-300">
-                      {driver.rating > 0 ? driver.rating.toFixed(1) : "0.0"}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell className="px-4 py-3 text-sm text-zinc-300">
-                  {driver.totalRides.toLocaleString()}
-                </TableCell>
-                <TableCell className="px-4 py-3 text-sm font-medium text-zinc-300">
-                  {driver.earnings}
-                </TableCell>
-                <TableCell className="px-4 py-3">
-                  <div className="flex items-center gap-1.5 text-sm text-zinc-300">
-                    <MapPin className="size-4 shrink-0 text-zinc-500" />
-                    {driver.location}
-                  </div>
-                </TableCell>
-                <TableCell className="px-4 py-3">
-                  <StatusBadge status={driver.status} />
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <div className="flex flex-col">
+                      <span className="text-sm text-zinc-300">
+                        {driver.vehicle}
+                      </span>
+                      <span className="text-xs text-zinc-500">
+                        {driver.licensePlate}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <div className="flex items-center gap-1.5">
+                      <Star className="size-4 fill-amber-400 text-amber-400" />
+                      <span className="text-sm text-zinc-300">
+                        {driver.rating > 0 ? driver.rating.toFixed(1) : "0.0"}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-sm text-zinc-300">
+                    {driver.totalRides.toLocaleString()}
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-sm font-medium text-zinc-300">
+                    {driver.earnings}
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <div className="flex items-center gap-1.5 text-sm text-zinc-300">
+                      <MapPin className="size-4 shrink-0 text-zinc-500" />
+                      {driver.location}
+                    </div>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <StatusBadge status={driver.status} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableFooter >
+              <TableRow className="bg-background hover:bg-background/90">
+                <TableCell colSpan={8} className="px-4 py-3">
+                  <PageLimit pagination={pagination} onPaginationChange={setPagination} />
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-          <TableFooter >
-            <TableRow className="bg-background">
-              <TableCell colSpan={8} className="px-4 py-3">
-                <PageLimit pagination={pagination} onPaginationChange={setPagination} />
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </CardContent>
-    </Card>
-    <DriverDetailsSheet
-      driver={selectedDriver}
-      open={sheetOpen}
-      onOpenChange={handleSheetOpenChange}
-    />
+            </TableFooter>
+          </Table>
+        </CardContent>
+      </Card>
+      <DriverDetailsSheet
+        driver={selectedDriver}
+        open={sheetOpen}
+        onOpenChange={handleSheetOpenChange}
+      />
     </>
   );
 }

@@ -273,7 +273,7 @@ export default function PaymentDataTable({
             ))}
           </TableBody>
           <TableFooter>
-            <TableRow className="bg-background">
+            <TableRow className="bg-background hover:bg-background/90">
               <TableCell colSpan={10} className="px-4 py-3">
                 <PageLimit
                   pagination={pagination}

@@ -102,7 +102,7 @@ export function AppSidebar() {
                       isActive={active}
                       className={cn(
                         active &&
-                        "mx-3 rounded-lg bg-white text-zinc-800 [&_svg]:text-zinc-800"
+                        " rounded-lg bg-white text-zinc-800 [&_svg]:text-zinc-800"
                       )}
                     >
                       <Link href={item.href}>
@@ -129,7 +129,7 @@ export function AppSidebar() {
                       isActive={active}
                       className={cn(
                         active &&
-                        "mx-3 rounded-lg bg-white text-zinc-800 [&_svg]:text-zinc-800"
+                        " rounded-lg bg-white text-zinc-800 [&_svg]:text-zinc-800"
                       )}
                     >
                       <Link href={item.href}>
@@ -156,7 +156,7 @@ export function AppSidebar() {
                       isActive={active}
                       className={cn(
                         active &&
-                        "mx-3 rounded-lg bg-white text-zinc-800 [&_svg]:text-zinc-800"
+                        " rounded-lg bg-white text-zinc-800 [&_svg]:text-zinc-800"
                       )}
                     >
                       <Link href={item.href}>
