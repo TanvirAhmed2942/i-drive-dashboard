@@ -23,6 +23,7 @@ export default function Login() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        router.push("/dashboard/overview")
     };
 
     return (

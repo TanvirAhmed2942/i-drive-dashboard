@@ -178,7 +178,7 @@ export function AppSidebar() {
               asChild
               className=" min-w-0 rounded-lg border border-destructive/80 bg-transparent text-destructive hover:bg-destructive/10 hover:text-destructive [&_svg]:text-destructive"
             >
-              <Link href="/auth" className="block min-w-0 overflow-hidden">
+              <Link href="/auth/login" className="block min-w-0 overflow-hidden">
                 <LogOut className="size-4" />
                 <span>Logout</span>
               </Link>
