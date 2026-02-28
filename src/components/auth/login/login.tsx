@@ -23,7 +23,7 @@ export default function Login() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        router.push("/dashboard/overview")
+        // router.push("/dashboard/overview")
     };
 
     return (
@@ -115,6 +115,7 @@ export default function Login() {
                     <Button
                         type="submit"
                         className="w-full bg-black/70 hover:bg-black text-white hover:text-white  font-medium py-2.5 transition-all duration-200 hover:shadow-lg hover:shadow-secondary/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={() => router.push("/dashboard/overview")}
                     >
                         Sign In
                     </Button>
